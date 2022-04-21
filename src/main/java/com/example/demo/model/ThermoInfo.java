@@ -30,4 +30,10 @@ public class ThermoInfo {
 
     @Column
     DegreeType degreeType;
+
+    @Column
+    double longitude;
+
+    @Column
+    double latitude;
 }
