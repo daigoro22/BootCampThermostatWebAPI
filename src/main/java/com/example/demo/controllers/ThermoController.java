@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin("https://editor.swagger.io/")
 @RestController
 @RequestMapping("/api/v1/temperature")
 public class ThermoController {
