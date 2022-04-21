@@ -22,7 +22,6 @@ public class ThermoInfo {
     @Column(updatable = false,nullable = false)
     Long id;
 
-    @CreationTimestamp
     @Column(updatable = false)
     Timestamp timestamp;
 

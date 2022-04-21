@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,6 @@ public class ThermoServiceImpl implements ThermoService {
 
     @Override
     public List<ThermoInfo> getThermoinfos(int n) {
-        List<ThermoInfo> thermos = new ArrayList<>();
 
         Page<ThermoInfo> page = thermoRepository.findAll(
                 PageRequest.of(0,n, Sort.by(Sort.Direction.ASC,"id"))
@@ -48,6 +48,9 @@ public class ThermoServiceImpl implements ThermoService {
 
     @Override
     public ThermoInfo inserThermoInfo(ThermoInfo thermoInfo) {
+        if(thermoInfo.getTimestamp()==null){
+            thermoInfo.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        }
         return thermoRepository.save(thermoInfo);
     }
 

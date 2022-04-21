@@ -8,8 +8,4 @@ import java.util.List;
 
 @Repository
 public interface ThermoRepository extends JpaRepository<ThermoInfo,Long> {
-    /*
-    @Query("SELECT t FROM ThermoInfo  t WHERE LIMIT = ?1")
-    List<ThermoInfo> findTopNThermoInfo(int n);
-     */
 }
