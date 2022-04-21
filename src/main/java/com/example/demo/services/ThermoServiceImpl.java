@@ -2,6 +2,9 @@ package com.example.demo.services;
 
 import com.example.demo.model.ThermoInfo;
 import com.example.demo.repositories.ThermoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,7 +18,6 @@ public class ThermoServiceImpl implements ThermoService {
     public ThermoServiceImpl(ThermoRepository todoRepository){
         this.thermoRepository = todoRepository;
     }
-
     /*
     @Override
     public Todo updateTodo(Long id, Todo todo) {
@@ -30,9 +32,12 @@ public class ThermoServiceImpl implements ThermoService {
     @Override
     public List<ThermoInfo> getThermoinfos(int n) {
         List<ThermoInfo> thermos = new ArrayList<>();
-        thermoRepository.findAll().forEach(thermos::add);
-        int fromIndex = (thermos.size()-n>0)?thermos.size()-n:0;
-        return thermos.subList(fromIndex,thermos.size());
+
+        Page<ThermoInfo> page = thermoRepository.findAll(
+                PageRequest.of(0,n, Sort.by(Sort.Direction.ASC,"id"))
+        );
+
+        return page.stream().toList();
     }
 
     @Override
