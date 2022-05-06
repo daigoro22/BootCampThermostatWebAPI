@@ -31,31 +31,27 @@ public class ThermoServiceImpl implements ThermoService {
     */
 
     @Override
-    public List<ThermoInfo> getThermoinfos(int n) {
-
-        Page<ThermoInfo> page = thermoRepository.findAll(
-                PageRequest.of(0,n, Sort.by(Sort.Direction.ASC,"id"))
-        );
-
-        return page.stream().toList();
+    public List<ThermoInfo> getThermoinfos(Long devId) {
+        return thermoRepository.findByDevId(devId);
     }
 
     @Override
-    public ThermoInfo getThermoInfoById(Long id) {
-        Optional<ThermoInfo> thermoInfo = thermoRepository.findById(id);
-        return thermoInfo.orElse(null);
+    public ThermoInfo getThermoInfoById(Long devId,Long thermoInfoId) {
+        List<ThermoInfo> thermoInfo = thermoRepository.findByDevIdAndThermoInfoId(devId,thermoInfoId);
+        return thermoInfo.get(0);
     }
 
     @Override
-    public ThermoInfo inserThermoInfo(ThermoInfo thermoInfo) {
+    public ThermoInfo insertThermoInfo(Long devId,ThermoInfo thermoInfo) {
         if(thermoInfo.getTimestamp()==null){
             thermoInfo.setTimestamp(new Timestamp(System.currentTimeMillis()));
         }
+        thermoInfo.setDevId(devId);
         return thermoRepository.save(thermoInfo);
     }
 
     @Override
-    public void deleteThermoInfo(Long id) {
+    public void deleteThermoInfo(Long devId,Long id) {
         thermoRepository.deleteById(id);
     }
 }

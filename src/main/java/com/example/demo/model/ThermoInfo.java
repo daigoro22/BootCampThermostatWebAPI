@@ -20,7 +20,10 @@ public class ThermoInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false,nullable = false)
-    Long id;
+    Long thermoInfoId;
+
+    @Column(updatable = false)
+    Long devId;
 
     @Column(updatable = false)
     Timestamp timestamp;

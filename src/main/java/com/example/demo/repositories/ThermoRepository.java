@@ -8,4 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ThermoRepository extends JpaRepository<ThermoInfo,Long> {
+    List<ThermoInfo> findByDevId(Long devId);
+    List<ThermoInfo> findByDevIdAndThermoInfoId(Long devId,Long thermoInfoId);
 }
