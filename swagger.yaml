@@ -9,65 +9,77 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "8388-153-156-28-29.jp.ngrok.io"
-basePath: "/api/v1"
+host: "6b23-153-156-28-29.jp.ngrok.io"
+basePath: "/api/v2"
 
 tags:
-- name: "temperature"
-  description: "Everything about your room's temperature"
-  externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
+  - name: "temperature"
+    description: "Everything about your room's temperature"
+    externalDocs:
+      description: "Find out more"
+      url: "http://swagger.io"
 
 schemes:
-- "https"
-- "http"
+  - "https"
+  - "http"
 
 paths:
-  /temperature:
+  /temperature/{devId}:
     post:
       tags:
-      - "temperature"
+        - "temperature"
       summary: "温度計の新しい情報をDBに追加する"
       description: ""
       operationId: "postTemperature"
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "thermoInfo"
-        description: "DB に追加するための、温度計から取得した情報"
-        required: true
-        schema:
-          $ref: "#/definitions/ThermoInfoPost"
+        - in: "body"
+          name: "thermoInfo"
+          description: "DB に追加するための、温度計から取得した情報"
+          required: true
+          schema:
+            $ref: "#/definitions/ThermoInfoPost"
+        - name: "devId"
+          in: "path"
+          description: "温度計デバイスのID"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         "405":
           description: "Invalid input"
-    
+
     get:
       tags:
-      - "temperature"
+        - "temperature"
       summary: "温度計の情報をDBから取得する"
       description: ""
       operationId: "getTemperature"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "n"
-        in: "query"
-        description: "温度を取得する件数(直近)"
-        required: true
-        type: 'integer'
-        items:
+        - name: "n"
+          in: "query"
+          description: "温度を取得する件数(直近)"
+          required: true
+          type: 'integer'
+          items:
+            type: "integer"
+            format: "int32"
+            minimum: 1
+            maximum: 10000
+        - name: "devId"
+          in: "path"
+          description: "温度計デバイスのID"
+          required: true
           type: "integer"
-          format: "int32"
-          minimum: 1
-          maximum: 10000
+          format: "int64"
       responses:
         "200":
           description: "成功"
@@ -75,29 +87,35 @@ paths:
             type: 'array'
             items:
               $ref: "#/definitions/ThermoInfoGet"
-    
-  /temperature/{id}:  
+
+  /temperature/{devId}/{thermoInfoId}:
     delete:
       tags:
-      - "temperature"
+        - "temperature"
       summary: "温度計の情報を消す"
       description: ""
       operationId: "deleteTemperature"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "消す温度計情報のID"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "thermoInfoId"
+          in: "path"
+          description: "消す温度計情報のID"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "devId"
+          in: "path"
+          description: "温度計デバイスのID"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         "400":
           description: "Invalid id supplied"
         "404":
           description: "TemperatureInfo not found"
-    
+
 definitions:
   
   ThermoInfoPost:
@@ -113,15 +131,15 @@ definitions:
         type: "string"
         description: "Celsius or Fahrenheit"
         enum:
-        - "Celsius"
-        - "Fahrenheit"
+          - "Celsius"
+          - "Fahrenheit"
       longitude:
         type: "number"
         format: "double"
       latitude:
         type: "number"
         format: "double"
-        
+
   ThermoInfoGet:
     type: "object"
     properties:
@@ -138,8 +156,8 @@ definitions:
         type: "string"
         description: "Celsius or Fahrenheit"
         enum:
-        - "Celsius"
-        - "Fahrenheit"
+          - "Celsius"
+          - "Fahrenheit"
       longitude:
         type: "number"
         format: "double"
@@ -147,7 +165,7 @@ definitions:
         type: "number"
         format: "double"
 
-      
+
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
