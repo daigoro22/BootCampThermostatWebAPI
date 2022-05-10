@@ -41,6 +41,11 @@ public class ThermoServiceImpl implements ThermoService {
     }
 
     @Override
+    public List<ThermoInfo> getAllThermoInfos() {
+        return thermoRepository.findAll();
+    }
+
+    @Override
     public ThermoInfo getThermoInfoById(Long devId,Long thermoInfoId) {
         Device device = new Device();
         device.setDevId(devId);
