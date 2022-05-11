@@ -37,12 +37,12 @@
     <th:block th:each="thermo : ${allThermoInfos}">
         <tr>
             <td th:text="${thermo.thermoInfoId}"></td>
-            <td th:text="${thermo.devId}"></td>
+            <td th:text="${thermo.device.devId}"></td>
             <td th:text="${thermo.timestamp}"></td>
             <td th:text="${thermo.degree}"></td>
             <td th:text="${thermo.degreeType}"></td>
-            <td th:text="${thermo.longitude}"></td>
-            <td th:text="${thermo.latitude}"></td>
+            <td th:text="${thermo.device.longitude}"></td>
+            <td th:text="${thermo.device.latitude}"></td>
         </tr>
     </th:block>
     </tbody>

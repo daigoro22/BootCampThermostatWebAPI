@@ -5,15 +5,10 @@ import com.example.demo.model.ThermoInfo;
 import com.example.demo.repositories.DeviceRepository;
 import com.example.demo.repositories.ThermoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ThermoServiceImpl implements ThermoService {
@@ -21,17 +16,6 @@ public class ThermoServiceImpl implements ThermoService {
     ThermoRepository thermoRepository;
     @Autowired
     DeviceRepository deviceRepository;
-
-    /*
-    @Override
-    public Todo updateTodo(Long id, Todo todo) {
-        Todo todoFromDb = todoRepository.findById(id).get();
-        todoFromDb.setTitle(todo.getTitle());
-        todoFromDb.setDescription(todo.getDescription());
-        todoFromDb.setTodoStatus(todo.getTodoStatus());
-        return todoRepository.save(todoFromDb);
-    }
-    */
 
     @Override
     public List<ThermoInfo> getThermoinfos(Long devId) {
