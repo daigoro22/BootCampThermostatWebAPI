@@ -30,8 +30,9 @@ public class ThermoController {
     public ResponseEntity<ThermoInfo> saveThermoInfo(@PathVariable Long devId,@RequestBody ThermoInfo thermoInfo) {
         ThermoInfo newThermo = thermoService.insertThermoInfo(devId,thermoInfo);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("thermo", "/api/v2/temperature/" + newThermo.getDevice().getDevId().toString() + "/"
-                + newThermo.getThermoInfoId().toString());return new ResponseEntity<>(newThermo, httpHeaders, HttpStatus.CREATED);
+        httpHeaders.add("thermo", "/api/v2/temperature/" + newThermo.getDevId().toString() + "/"
+                + newThermo.getThermoInfoId().toString());
+        return new ResponseEntity<>(newThermo, httpHeaders, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{devId}/{thermoInfoId}")
