@@ -1,10 +1,8 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,14 +14,17 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = {"device"})
 public class ThermoInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false,nullable = false)
     Long thermoInfoId;
 
-    @Column(updatable = false)
-    Long devId;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="dev_id")
+    private Device device;
 
     @Column(updatable = false)
     Timestamp timestamp;
@@ -33,10 +34,4 @@ public class ThermoInfo {
 
     @Column
     DegreeType degreeType;
-
-    @Column
-    double longitude;
-
-    @Column
-    double latitude;
 }
