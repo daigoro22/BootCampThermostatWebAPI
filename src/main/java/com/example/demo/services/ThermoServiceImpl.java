@@ -1,7 +1,10 @@
 package com.example.demo.services;
 
+import com.example.demo.model.Device;
 import com.example.demo.model.ThermoInfo;
+import com.example.demo.repositories.DeviceRepository;
 import com.example.demo.repositories.ThermoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,11 +17,11 @@ import java.util.Optional;
 
 @Service
 public class ThermoServiceImpl implements ThermoService {
+    @Autowired
     ThermoRepository thermoRepository;
+    @Autowired
+    DeviceRepository deviceRepository;
 
-    public ThermoServiceImpl(ThermoRepository todoRepository){
-        this.thermoRepository = todoRepository;
-    }
     /*
     @Override
     public Todo updateTodo(Long id, Todo todo) {
@@ -32,12 +35,16 @@ public class ThermoServiceImpl implements ThermoService {
 
     @Override
     public List<ThermoInfo> getThermoinfos(Long devId) {
-        return thermoRepository.findByDevId(devId);
+        Device device = new Device();
+        device.setDevId(devId);
+        return thermoRepository.findByDevice(device);
     }
 
     @Override
     public ThermoInfo getThermoInfoById(Long devId,Long thermoInfoId) {
-        List<ThermoInfo> thermoInfo = thermoRepository.findByDevIdAndThermoInfoId(devId,thermoInfoId);
+        Device device = new Device();
+        device.setDevId(devId);
+        List<ThermoInfo> thermoInfo = thermoRepository.findByDeviceAndThermoInfoId(device,thermoInfoId);
         return thermoInfo.get(0);
     }
 
@@ -46,7 +53,16 @@ public class ThermoServiceImpl implements ThermoService {
         if(thermoInfo.getTimestamp()==null){
             thermoInfo.setTimestamp(new Timestamp(System.currentTimeMillis()));
         }
-        thermoInfo.setDevId(devId);
+
+        Device device = deviceRepository.findDeviceByDevId(devId);
+
+        if(device==null) {
+            device = new Device();
+            device.setDevId(devId);
+            deviceRepository.saveAndFlush(device);
+        }
+
+        thermoInfo.setDevice(device);
         return thermoRepository.save(thermoInfo);
     }
 
